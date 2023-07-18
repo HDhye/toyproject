@@ -1,0 +1,33 @@
+
+#server port
+server:
+  port: 8000
+
+# oracle config
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: C##EMPLOYEE
+    password: EMPLOYEE
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    check-template-location: true
+
+  image:
+    image-dir: src/main/resources
+
+# mybatis config
+mybatis:
+  mapper-locations: mappers/**/*.xml
+  # alias Setting
+  type-aliases-package: com.hdhye.toyproject
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
