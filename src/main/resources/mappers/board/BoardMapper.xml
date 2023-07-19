@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdhye.toyproject.model.dao.BoardMapper">
+
+    <resultMap id="boardMap" type="com.hdhye.toyproject.model.dto.BoardDTO">
+        <id property="no" column="NO"/>
+        <result property="name" column="NAME"/>
+        <result property="title" column="TITLE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="createdDate" column="CREATED_DATE"/>
+    </resultMap>
+
+    <select id="selectBoard" resultMap="boardMap">
+        SELECT NO, NAME, TITLE, NICKNAME, CREATED_DATE
+        FROM TOY_BOARD
+    </select>
+</mapper>
