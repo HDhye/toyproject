@@ -1,29 +1,32 @@
 package com.hdhye.toyproject.configuration;
 
+import com.hdhye.toyproject.configuration.filter.CorsConfig;
 import com.hdhye.toyproject.model.service.PrincipalOauth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration      // 빈 등록
-@EnableWebSecurity
+@EnableWebSecurity      // 시큐리티 활성화 -> 기본 스프링 필터체인에 등록
 public class SecurityConfiguration {
 
     private PrincipalOauth2UserService principalOauth2UserService;
+    private CorsConfig corsConfig;
 
     @Autowired
-    public SecurityConfiguration(PrincipalOauth2UserService principalOauth2UserService) {
+    public SecurityConfiguration(PrincipalOauth2UserService principalOauth2UserService, CorsConfig corsConfig) {
         this.principalOauth2UserService = principalOauth2UserService;
+        this.corsConfig = corsConfig;
     }
+
+
+
 
     /* 비밀번호 암호화 사용객체 등록 */
     @Bean
@@ -39,9 +42,11 @@ public class SecurityConfiguration {
 
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable()
+        http
+                .addFilter(corsConfig.cors)
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)     // 세션을 사용 안한다
-                .and()
+            .and()
                 .formLogin().disable()      // 폼로그인 사용 안 한다.
                 .httpBasic().disable()      // httpBasic 사용 안 한다.
                 .authorizeRequests()
