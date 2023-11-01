@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@SpringBootApplication(scanBasePackages = "com.hdhye.toyproject", exclude = SecurityAutoConfiguration.class)
 @ComponentScan("com.hdhye.toyproject")
+@SpringBootApplication(scanBasePackages = "com.hdhye.toyproject")
 public class ToyProjectApplication {
 
     public static void main(String[] args) {

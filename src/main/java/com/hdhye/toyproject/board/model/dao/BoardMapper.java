@@ -1,6 +1,6 @@
-package com.hdhye.toyproject.model.dao;
+package com.hdhye.toyproject.board.model.dao;
 
-import com.hdhye.toyproject.model.dto.BoardDTO;
+import com.hdhye.toyproject.board.model.dto.BoardDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.hdhye.toyproject.model.dto;
+package com.hdhye.toyproject.board.model.dto;
 
 
 import lombok.*;
