@@ -1,7 +1,7 @@
 
 #server port
 server:
-  port: 8000
+  port: 8080
 
 # oracle config
 spring:
@@ -24,7 +24,7 @@ mybatis:
   mapper-locations: mappers/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-
+#
 logging:
   level:
     org.springframework.security: DEBUG

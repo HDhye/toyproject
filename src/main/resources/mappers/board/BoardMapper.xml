@@ -4,16 +4,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hdhye.toyproject.board.model.dao.BoardMapper">
 
-    <resultMap id="boardMap" type="com.hdhye.toyproject.board.model.dto.BoardDTO">
-        <id property="no" column="NO"/>
-        <result property="name" column="NAME"/>
+    <resultMap id="boardDTO" type="com.hdhye.toyproject.board.model.dto.BoardDTO">
+        <id property="bulletinCode" column="BULLETIN_CODE"/>
         <result property="title" column="TITLE"/>
-        <result property="nickname" column="NICKNAME"/>
-        <result property="createdDate" column="CREATED_DATE"/>
+        <result property="views" column="VIEWS"/>
+        <result property="content" column="CONTENT"/>
+        <result property="creationDate" column="CREATION_DATE"/>
+        <result property="deleteYn" column="DELETE_YN"/>
+        <result property="modifiedDate" column="MODIFIED_DATE"/>
+        <result property="allowComments" column="ALLOW_COMMENTS"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="empNo" column="EMP_NO"/>
     </resultMap>
 
-    <select id="selectBoard" resultMap="boardMap">
-        SELECT NO, NAME, TITLE, NICKNAME, CREATED_DATE
-        FROM TOY_BOARD
+    <select id="selectBoardList" resultMap="boardDTO">
+        SELECT ROWNUM as RN, BULLETIN_CODE, TITLE, VIEWS, CONTENT, CREATION_DATE, MODIFIED_DATE,
+               ALLOW_COMMENTS, CATEGORY_CODE, EMP_NO
+        FROM TBL_BULLETIN_BOARD
+        WHERE DELETE_YN = 'N'
+          <if test="pageNo != '0' and pageNo != null">
+              AND RN &gt; ((TO_NUMBER(#{pageNo}) -1) * 5)
+              AND RN &lt; ((TO_NUMBER(#{pageNo})* 5)
+          </if>
+        ORDER BY CREATION_DATE desc
     </select>
 </mapper>
