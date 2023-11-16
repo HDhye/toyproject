@@ -2,6 +2,7 @@ package com.hdhye.toyproject.board.model.service;
 
 import com.hdhye.toyproject.board.model.dao.BoardMapper;
 import com.hdhye.toyproject.board.model.dto.BoardDTO;
+import com.hdhye.toyproject.common.SelectCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +17,10 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardDTO> selectBoardList() {
         return boardMapper.selectBoardList();
+    }
+
+    @Override
+    public int selectTotalCount(SelectCriteria criteria) {
+        return boardMapper.selectTotalCount(criteria);
     }
 }

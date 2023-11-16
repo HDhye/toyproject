@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hdhye.toyproject.board.model.dao.BoardMapper">
 
-    <resultMap id="boardDTO" type="com.hdhye.toyproject.board.model.dto.BoardDTO">
+    <resultMap id="BoardDTO" type="com.hdhye.toyproject.board.model.dto.BoardDTO">
         <id property="bulletinCode" column="BULLETIN_CODE"/>
         <result property="title" column="TITLE"/>
         <result property="views" column="VIEWS"/>
@@ -17,7 +17,29 @@
         <result property="empNo" column="EMP_NO"/>
     </resultMap>
 
-    <select id="selectBoardList" resultMap="boardDTO">
+    <select id="selectTotalCount" resultType="_int" parameterType="com.hdhye.toyproject.common.SelectCriteria">
+        SELECT count(*)
+        FROM TBL_BULLETIN_BOARD A
+        <if test="searchCondition == 'name'">
+            JOIN TBL_EMPLOYEE B ON(A.EMP_NO = B.EMP_NO)
+        </if>
+        <where>
+
+            <if test="searchCondition == 'title'">
+                A.TITLE LIKE '%' || #{searchValue } || '%'
+            </if>
+            <if test="searchCondition == 'content'">
+                A.CONTENT LIKE '%' || #{searchValue } || '%'
+            </if>
+            <if test="searchCondition == 'name'">
+               B.EMP_NAME LIKE '%' || #{searchValue } || '%'
+            </if>
+            AND A.DELETE_YN = 'N'
+            AND #{categoryCode} in A.CATEGORY_CODE
+        </where>
+    </select>
+
+    <select id="selectBoardList" resultMap="BoardDTO">
         SELECT ROWNUM as RN, BULLETIN_CODE, TITLE, VIEWS, CONTENT, CREATION_DATE, MODIFIED_DATE,
                ALLOW_COMMENTS, CATEGORY_CODE, EMP_NO
         FROM TBL_BULLETIN_BOARD

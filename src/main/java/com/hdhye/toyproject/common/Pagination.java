@@ -13,13 +13,13 @@ import java.util.Map;
 public class Pagination {
 
     // 검색어가 없는 경우 페이징 처리만을 위한 용도
-    public static SelectCriteria getSelectCriteria(int currentPageNo, int totalCount, int limit, int buttonAmount) {
+    public static SelectCriteria getSelectCriteria(int currentPageNo, int categoryCode, int totalCount, int limit, int buttonAmount) {
 
-        return getSelectCriteria(currentPageNo, 0, limit, buttonAmount, null, null);
+        return getSelectCriteria(currentPageNo, categoryCode, totalCount, limit, buttonAmount, null, null);
     }
 
     // 검색어가 존재하는 경우 검색 조건으로 select 후 페이징 처리를 하기 위한 용도
-    public static SelectCriteria getSelectCriteria(int currentPageNo, int totalCount, int limit, int buttonAmount, String searchCondition, String searchValue) {
+    public static SelectCriteria getSelectCriteria(int currentPageNo, int categoryCode, int totalCount, int limit, int buttonAmount, String searchCondition, String searchValue) {
         int maxPageNo;
         int startPageNo;
         int endPageNo;
@@ -53,7 +53,7 @@ public class Pagination {
         System.out.println("startRow = " + startRow);
         System.out.println("endRow = " + endRow);
 
-        SelectCriteria selectCriteria = new SelectCriteria(currentPageNo, totalCount, limit, buttonAmount, maxPageNo, startPageNo, endPageNo, startRow, endRow, searchCondition, searchValue);
+        SelectCriteria selectCriteria = new SelectCriteria(currentPageNo,categoryCode, totalCount, limit, buttonAmount, maxPageNo, startPageNo, endPageNo, startRow, endRow, searchCondition, searchValue);
 
         return selectCriteria;
     }

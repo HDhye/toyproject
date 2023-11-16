@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 public class SelectCriteria {
 
     private int currentPageNo;  // 현재 페이지
+    private int categoryCode;   // 게시판(게시물) 카테고리
     private int totalCount;     // 전체 게시물 수
     private int limit;          // 한 페이지 당 게시물 수
     private int buttonAmount;   // 한 번에 보여줄 페이지 버튼 갯수
@@ -20,8 +21,9 @@ public class SelectCriteria {
     private String searchCondition; // 검색 조건
     private String searchValue;     // 검색어
 
-    public SelectCriteria(int currentPageNo, int totalCount, int limit, int buttonAmount, int maxPageNo, int startPageNo, int endPageNo, int startRow, int endRow, String searchCondition, String searchValue) {
+    public SelectCriteria(int currentPageNo, int categoryCode, int totalCount, int limit, int buttonAmount, int maxPageNo, int startPageNo, int endPageNo, int startRow, int endRow, String searchCondition, String searchValue) {
         this.currentPageNo = currentPageNo;
+        this.categoryCode = categoryCode;
         this.totalCount = totalCount;
         this.limit = limit;
         this.buttonAmount = buttonAmount;
@@ -36,6 +38,10 @@ public class SelectCriteria {
 
     public void setCurrentPageNo(int currentPageNo) {
         this.currentPageNo = currentPageNo;
+    }
+
+    public void setCategoryCode(int categoryCode) {
+        this.categoryCode = categoryCode;
     }
 
     public void setTotalCount(int totalCount) {
@@ -82,6 +88,7 @@ public class SelectCriteria {
     public String toString() {
         return "SelectCriteria{" +
                 "currentPageNo=" + currentPageNo +
+                ", categoryCode=" + categoryCode +
                 ", totalCount=" + totalCount +
                 ", limit=" + limit +
                 ", buttonAmount=" + buttonAmount +

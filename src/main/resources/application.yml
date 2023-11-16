@@ -8,8 +8,8 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@oracle.coffit.today:1521:XE
-    username: C##
-    password:
+    username: C##HIGHCARE
+    password: HIGHCARE
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
