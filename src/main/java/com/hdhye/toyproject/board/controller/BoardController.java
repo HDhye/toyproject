@@ -1,20 +1,19 @@
 package com.hdhye.toyproject.board.controller;
+import com.hdhye.toyproject.board.model.dto.BoardListRes;
 import com.hdhye.toyproject.board.model.service.BoardService;
 import com.hdhye.toyproject.board.model.dto.BoardDTO;
 import com.hdhye.toyproject.common.Pagination;
+import com.hdhye.toyproject.common.ResponseDTO;
 import com.hdhye.toyproject.common.SelectCriteria;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,14 +24,16 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/list")
-    public Model selectBoardList(HttpServletRequest request, Model model,
+    public ResponseEntity<ResponseDTO> selectBoardList(HttpServletRequest request, Model model,
 //                           @RequestParam(required = false, defaultValue = "1") int currentPageNo
-                           SelectCriteria criteria
+                                                       @ModelAttribute SelectCriteria criteria
     ){
 
+        /* 게시물 카운팅 조회 */
         log.info("[BoardController] selectBoardList ==== criteria ===== {}", criteria);
-
-        criteria.setTotalCount(boardService.selectTotalCount(criteria));
+        int count = boardService.selectTotalCount(criteria);
+        log.info("[BoardController] selectBoardList ==== count ===== {}", count);
+        criteria.setTotalCount(count);
         log.info("[BoardController] selectBoardList ==== criteria.getTotalCount ===== {}", criteria.getTotalCount());
 
         // 한 페이지에 보여질 게시물 수 (기본 5)
@@ -45,20 +46,24 @@ public class BoardController {
 
         // 검색어 유무에 따라
         if(criteria.getSearchCondition() != null && !criteria.getSearchCondition().equals("")){
+            criteria = Pagination.getSelectCriteria(criteria.getCurrentPageNo(), criteria.getCategoryCode(),
+                    criteria.getTotalCount(), criteria.getLimit(), criteria.getButtonAmount(),
+                    criteria.getSearchCondition(), criteria.getSearchValue());
+        } else {
 
+            criteria = Pagination.getSelectCriteria(criteria.getCurrentPageNo(), criteria.getCategoryCode(),
+                    criteria.getTotalCount(), criteria.getLimit(), criteria.getButtonAmount());
         }
+        log.info("[BoardController] selectBoardList ==== criteria ===== {}", criteria);
 
-        Pagination.getSelectCriteria(criteria.getCurrentPageNo(), criteria.getCategoryCode(), criteria.getTotalCount(), criteria.getLimit(),
-                criteria.getButtonAmount(), criteria.getSearchCondition(), criteria.getSearchValue());
-
-        Pagination.getSelectCriteria(criteria.getCurrentPageNo(), criteria.getCategoryCode(), criteria.getTotalCount(), criteria.getLimit(), criteria.getButtonAmount());
-
-        List<BoardDTO> boardList = boardService.selectBoardList();
+        /* 게시물 조회 */
+        List<BoardDTO> boardList = boardService.selectBoardList(criteria);
 
         model.addAttribute("boardList", boardList);
         System.out.println("boardList = " + boardList);
 
-        return model;
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(),"SelectBoardList",
+                new BoardListRes(boardService.selectBoardList(criteria), criteria)));
     }
 
     private void getPaging(Model model, int currentPageNo, String url){

@@ -24,7 +24,6 @@
             JOIN TBL_EMPLOYEE B ON(A.EMP_NO = B.EMP_NO)
         </if>
         <where>
-
             <if test="searchCondition == 'title'">
                 A.TITLE LIKE '%' || #{searchValue } || '%'
             </if>
@@ -39,15 +38,68 @@
         </where>
     </select>
 
-    <select id="selectBoardList" resultMap="BoardDTO">
-        SELECT ROWNUM as RN, BULLETIN_CODE, TITLE, VIEWS, CONTENT, CREATION_DATE, MODIFIED_DATE,
-               ALLOW_COMMENTS, CATEGORY_CODE, EMP_NO
-        FROM TBL_BULLETIN_BOARD
-        WHERE DELETE_YN = 'N'
-          <if test="pageNo != '0' and pageNo != null">
-              AND RN &gt; ((TO_NUMBER(#{pageNo}) -1) * 5)
-              AND RN &lt; ((TO_NUMBER(#{pageNo})* 5)
-          </if>
-        ORDER BY CREATION_DATE desc
+    <select id="selectBoardList" resultMap="BoardDTO" parameterType="com.hdhye.toyproject.common.SelectCriteria">
+        SELECT
+        A.RN,
+        A.BULLETIN_CODE,
+        A.TITLE,
+        A.VIEWS,
+        A.CONTENT,
+        A.CREATION_DATE,
+        A.MODIFIED_DATE,
+        A.ALLOW_COMMENTS,
+        A.CATEGORY_CODE,
+        F.NAME_BOARD,
+        E.EMP_NAME
+    FROM (
+        SELECT
+            ROWNUM RN,
+            B.BULLETIN_CODE,
+            B.TITLE,
+            B.VIEWS,
+            B.CONTENT,
+            B.CREATION_DATE,
+            B.MODIFIED_DATE,
+            B.ALLOW_COMMENTS,
+            B.CATEGORY_CODE,
+            B.EMP_NO
+        FROM (
+            SELECT
+                C.BULLETIN_CODE,
+                C.TITLE,
+                C.VIEWS,
+                C.CONTENT,
+                C.CREATION_DATE,
+                C.MODIFIED_DATE,
+                C.ALLOW_COMMENTS,
+                C.CATEGORY_CODE,
+                C.EMP_NO,
+                D.EMP_NAME
+            FROM TBL_BULLETIN_BOARD C
+            JOIN TBL_EMPLOYEE D on (C.EMP_NO = D.EMP_NO)
+            <where>
+            <if test="searchCondition == 'title'">
+            AND C.TITLE LIKE '%' || #{searchValue } || '%'
+            </if>
+            <if test="searchCondition == 'content'">
+            AND C.CONTENT LIKE '%' || #{searchValue } || '%'
+            </if>
+            <if test="searchCondition == 'name'">
+            AND D.EMP_NAME LIKE '%' || #{searchValue } || '%'
+            </if>
+            AND C.DELETE_YN = 'N'
+            AND C.CATEGORY_CODE = #{categoryCode}
+            </where>
+            ORDER BY C.BULLETIN_CODE DESC
+        ) B
+        <![CDATA[
+            WHERE ROWNUM <= #{endRow}
+        ]]>
+    ) A
+    JOIN TBL_EMPLOYEE E ON(A.EMP_NO = E.EMP_NO)
+    JOIN TBL_BULLETIN_CATEGORIES F ON(A.CATEGORY_CODE = F.CATEGORY_CODE)
+    WHERE A.RN >= #{startRow}
+    ORDER BY 1 ASC
     </select>
+
 </mapper>

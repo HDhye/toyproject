@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface BoardMapper {
 
-    List<BoardDTO> selectBoardList();
+    List<BoardDTO> selectBoardList(SelectCriteria criteria);
 
     int selectTotalCount(SelectCriteria criteria);
 }

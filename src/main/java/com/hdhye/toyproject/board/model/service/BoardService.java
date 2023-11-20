@@ -7,7 +7,7 @@ import com.hdhye.toyproject.common.SelectCriteria;
 import java.util.List;
 
 public interface BoardService {
-    List<BoardDTO> selectBoardList();
+    List<BoardDTO> selectBoardList(SelectCriteria criteria);
 
     int selectTotalCount(SelectCriteria criteria);
 }
