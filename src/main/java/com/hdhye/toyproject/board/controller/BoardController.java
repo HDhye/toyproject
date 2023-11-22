@@ -1,5 +1,6 @@
 package com.hdhye.toyproject.board.controller;
 import com.hdhye.toyproject.board.model.dto.BoardListRes;
+import com.hdhye.toyproject.board.model.dto.BoardResponse;
 import com.hdhye.toyproject.board.model.service.BoardService;
 import com.hdhye.toyproject.board.model.dto.BoardDTO;
 import com.hdhye.toyproject.common.Pagination;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/board")
 @Slf4j
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class BoardController {
 
     private final BoardService boardService;

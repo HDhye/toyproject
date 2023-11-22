@@ -13,9 +13,27 @@
         <result property="deleteYn" column="DELETE_YN"/>
         <result property="modifiedDate" column="MODIFIED_DATE"/>
         <result property="allowComments" column="ALLOW_COMMENTS"/>
-        <result property="categoryCode" column="CATEGORY_CODE"/>
-        <result property="empNo" column="EMP_NO"/>
+        <association property="category" resultMap="CategoryDTO"/>
+        <association property="employee" resultMap="EmployeeDTO"/>
     </resultMap>
+
+    <resultMap id="CategoryDTO" type="com.hdhye.toyproject.board.model.dto.CategoryDTO">
+        <id property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="nameBoard" column="NAME_BOARD"/>
+    </resultMap>
+
+
+    <resultMap id="EmployeeDTO" type="com.hdhye.toyproject.board.model.dto.EmployeeDTO">
+        <id property="empNo" column="EMP_NO"/>
+        <result property="empName" column="EMP_NAME"/>
+    </resultMap>
+
+<!--    <resultMap id="BoardResponse" type="com.hdhye.toyproject.board.model.dto.BoardResponse">-->
+<!--        <association property="board" resultMap="BoardDTO"/>-->
+<!--        <association property="category" resultMap="CategoryDTO"/>-->
+<!--        <association property="employee" resultMap="EmployeeDTO"/>-->
+<!--    </resultMap>-->
+
 
     <select id="selectTotalCount" resultType="_int" parameterType="com.hdhye.toyproject.common.SelectCriteria">
         SELECT count(*)

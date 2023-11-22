@@ -9,13 +9,11 @@ import java.util.List;
 @Getter
 public class BoardListRes {
 
-    private List<BoardDTO> boardList;
+    private List<BoardDTO> board;
     private SelectCriteria selectCriteria;
 
-
-    public BoardListRes(List<BoardDTO> boardList, SelectCriteria selectCriteria) {
-        this.boardList = boardList;
+    public BoardListRes(List<BoardDTO> board, SelectCriteria selectCriteria) {
+        this.board = board;
         this.selectCriteria = selectCriteria;
     }
-
 }

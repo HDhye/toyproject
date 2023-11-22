@@ -1,2 +1,16 @@
-package com.hdhye.toyproject.board.model.dto;public class EmployeeDTO {
+package com.hdhye.toyproject.board.model.dto;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@NoArgsConstructor
+@Getter
+@ToString
+public class EmployeeDTO {
+
+    private int empNo;
+    private String empName;
+
+
 }

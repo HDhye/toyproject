@@ -1,2 +1,5 @@
 GET http://localhost:8080/board/list?categoryCode=3&startPageNo=1&currentPageNo=1
 Accept: */*
+###
+GET http://localhost:8080/board/list?categoryCode=3
+Accept: */*

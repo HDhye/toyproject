@@ -18,11 +18,11 @@ public class BoardDTO {
     private String deleteYn;
     private Date modifiedDate;
     private String allowComments;
-    private int categoryCode;
-    private int empNo;
+    private CategoryDTO category;
+    private EmployeeDTO employee;
 
     @Builder
-    public BoardDTO(int bulletinCode, String title, int views, String content, Date creationDate, String deleteYn, Date modifiedDate, String allowComments, int categoryCode, int empNo) {
+    public BoardDTO(int bulletinCode, String title, int views, String content, Date creationDate, String deleteYn, Date modifiedDate, String allowComments, CategoryDTO category, EmployeeDTO employee) {
         this.bulletinCode = bulletinCode;
         this.title = title;
         this.views = views;
@@ -31,7 +31,9 @@ public class BoardDTO {
         this.deleteYn = deleteYn;
         this.modifiedDate = modifiedDate;
         this.allowComments = allowComments;
-        this.categoryCode = categoryCode;
-        this.empNo = empNo;
+        this.category = category;
+        this.employee = employee;
     }
+
+
 }
